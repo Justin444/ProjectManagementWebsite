@@ -53,6 +53,11 @@ body * {
     text-decoration: none;
     border-bottom: solid 2px #1059FF;
     transition: all .25s ease;
+    text-align: center;
+}
+
+.new-user {
+    text-align: center;
 }
 
 .form-signin {
