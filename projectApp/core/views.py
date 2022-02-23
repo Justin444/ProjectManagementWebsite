@@ -8,32 +8,37 @@ from projectApp.core.models import ProjectList, Item
 from projectApp.core.forms import SignUpForm, CreateListForm
 
 
-def index(response, id):
+def index(request, id):
     ls = ProjectList.objects.get(id=id)
-
-    if ls in response.user.todolist.all():
-
-        if response.method == "POST":
-            if response.POST.get("save"):
+    if ls in request.user.todolist.all():
+        if request.method == "POST":
+            if request.POST.get("save"):
+                print("save!!")
                 for item in ls.item_set.all():
-                    if response.POST.get("c" + str(item.id)) == "clicked":
+                    if request.POST.get("c" + str(item.id)) == "clicked":
                         item.complete = True
                     else:
                         item.complete = False
-
                     item.save()
-
-            elif response.POST.get("newItem"):
-                txt = response.POST.get("new")
-
-                if len(txt) > 2:
-                    ls.item_set.create(text=txt, complete=False)
+            if request.POST.get("delete"):
+                print("delete!!")
+                for item in ls.item_set.all():
+                    if request.POST.get("c" + str(item.id)) == "clicked":
+                        item.complete = True
+                        item.delete()
+                    else:
+                        item.complete = False
+            elif request.POST.get("deleteProj"):
+                ls.delete()
+                return render(request, "dashboard.html", {})
+            elif request.POST.get("add"):
+                newItem = request.POST.get("new")
+                if newItem != "":
+                    ls.item_set.create(text=newItem, complete=False)
                 else:
                     print("invalid")
 
-        return render(response, "index.html", {"ls": ls})
-
-    return render(response, "home.html", {})
+    return render(request, "index.html", {"ls": ls})
 
 
 def create(response):

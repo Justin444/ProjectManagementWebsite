@@ -1,35 +1,27 @@
 {% load static %}
+<link rel="stylesheet" type="text/css" href="{% static 'css/bootstrap.min.css' %}">
 <link rel="stylesheet" type="text/css" href="{% static 'css/login.css' %}">
 
 {% block content %}
-    <div class="container">
-        <div class="frame">
-            <div class="nav">
-                <h2 class="login-active">Log in to My Site</h2>
-            </div>
-            {% if form.errors %}
-                <p style="color: red">Your username and password didn't match. Please try again.</p>
-            {% endif %}
-            <form class="form-signin" method="post">
-                {% csrf_token %}
-                <input class="form-styling" type="hidden" name="next" value="{{ next }}" />
-                {% for field in form %}
-                    <p>
-                        {{ field.label_tag }}<br>
-                        {{ field }}<br>
-                        {% for error in field.errors %}
-                            <p style="color: red">{{ error }}</p>
-                        {% endfor %}
-                        {% if field.help_text %}
-                            <p><small style="color: grey">{{ field.help_text }}</small></p>
-                        {% endif %}
-                    </p>
-                {% endfor %}
-                <button type="submit" class="btn-animate"> <a class="btn-signin" type="submit">Log In</a> </button>
-                <div class="new-user">
-                    <a href="{% url 'signup' %}">New to My Site? Sign up</a>
-                </div>
-            </form>
+<form class="form-signin" method="post">
+        <div class="text-center">
+            <h1 class="h3 mb-3 font-weight-normal">Log in</h1>
         </div>
+        {% csrf_token %}
+            <input type="text" class="form-control" placeholder="Username" name="username" autofocus="" autocapitalize="none" autocomplete="username" maxlength="150" required="" id="id_username">
+            <br>
+            <input type="password" class="form-control" placeholder="Password" name="password" autocomplete="current-password" required="" id="id_password">
+        {% for error in field.errors %}
+        <p style="color: red">{{ error }}</p>
+            {% if field.help_text %}
+                <p><small style="color: grey">{{ field.help_text }}</small></p>
+            {% endif %}
+        {% endfor %}
+    <br>
+    <button type="submit" class="btn btn-lg btn-primary btn-block">Log In</a> </button>
+    <br>
+    <div class="new-user">
+        <a href="{% url 'signup' %}">New to My Site? Sign up</a>
     </div>
+</form>
 {% endblock %}

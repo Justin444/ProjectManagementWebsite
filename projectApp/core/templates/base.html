@@ -1,13 +1,110 @@
 <!DOCTYPE html>
 <html lang="en">
   <head>
+      {% load static %}
+        <style type="text/css">
+            * {
+                font-family: Helvetica, sans-serif;
+            }
+            .main {
+                background-color: rgb(23,24,26);
+            }
+            html,body {
+                background-color: rgb(23,24,26);
+            }
+            main {
+                min-height:100%;
+                background-color: rgb(23,24,26);
+            }
+            ul {
+              list-style-type: none;
+              margin: 0;
+              padding: 0;
+              overflow: hidden;
+              background-color: rgb(32,33,35);
+            }
+            h3 {
+                text-align: center;
+                color: rgb(156, 157, 158);
+            }
+            h2, h4 {
+                color: #38B261;
+            }
+            h1 {
+                text-align: center;
+                padding: 15px;
+                color: rgb(196, 197, 198);
+            }
+
+            li {
+              float: left;
+            }
+
+            p {
+                color: rgb(156, 157, 158);
+            }
+
+            li a {
+              display: block;
+              color: white;
+              text-align: center;
+              padding: 14px 16px;
+              text-decoration: none;
+            }
+            .topnav-right {
+              float: right;
+            }
+            .plink {
+                position:absolute;
+                padding:15px;
+                bottom:0;
+                color: #38B261;
+            }
+            .border-bottom {
+                border-bottom: 1px solid #38b261 !important;
+            }
+            .plink a:hover {
+                color: #38B261;
+            }
+            .feature-cont {
+                padding: 15px;
+            }
+            .row {
+                margin-right: 0px;
+                margin-left: 0px;
+            }
+            .p-3 {
+                min-height: 100%;
+            }
+            .profile-bg {
+                box-shadow: rgba(255, 255, 255, 0.1) 0px 1px 1px 0px inset, rgba(56, 178, 97, 0.5) 0px 5px 35px -20px, rgba(0, 0, 0, 0.8) 30px 30px 60px -30px;
+                border-radius: 15px;
+                background-color: rgb(32,33,35);
+            }
+            .profile-info {
+                position:relative;
+                border-radius: 15px;
+                height: 300px;
+                background-color: rgb(44,45,47);
+            }
+            #proj {
+              display: block;
+              background-color: #333;
+              text-align: center;
+              padding: 14px 16px;
+              text-decoration: none;
+            }
+
+            /* Change the link color to #111 (black) on hover */
+            li a:hover {
+              background-color: #111;
+            }
+        </style>
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
         <!---------------------styles--------------------->
-  {% load static %}
 		<link rel="stylesheet" type="text/css" href="{% static 'css/projectDashboard.css' %}">
         <link rel="stylesheet" type="text/css" href="{% static 'css/bootstrap.min.css' %}">
-        <link rel="stylesheet" type="text/css" href="{% static 'css/base.css' %}">
 		<!---------------------fonts--------------------->
 		<link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
 		<!---------------------scripts--------------------->
@@ -24,17 +121,20 @@
       <title>{% block title %}CMSC451{% endblock %}</title>
   </head>
   <body>
-    <!-- Side navigation -->
-    <ul>
-    <li><a href="/">Home</a></li>
-    <li><a href="/dashboard">Dashboard</a></li>
-    <li><a href="/create">Create</a></li>
-      {% if user.is_authenticated %}
-        <li><a href="{% url 'logout' %}">Log Out</a></li>
+    <!-- navigation -->
+    <ul style = "margin: 0;">
+        <li><a href="/">Project Management Website</a></li>
+        <li><a href="/">Home</a></li>
+        {% if user.is_authenticated %}
+        <li><a href="/dashboard">Dashboard</a></li>
+        <li><a href="/create">Create</a></li>
+        <div class="topnav-right">
+        <li><a href="{% url 'logout' %}">Logout</a></li>
       {% else %}
-        <li><a href="{% url 'login' %}">Log In</a></li>
-        <li><a href="{% url 'signup' %}">Sign Up</a></li>
+            <li><a href="{% url 'login' %}">Login</a></li>
+            <li><a href="{% url 'signup' %}">Signup</a></li>
       {% endif %}
+        </div>
     </ul>
 <!-- Page content -->
   <div class="main">
