@@ -6,6 +6,9 @@
 		<div class="text-center">
 			<h2>Your current projects</h2>
 		</div>
+        <div class = "addTab" style = "text-align: right; margin: 15px;">
+        	<button id = "taskSettings" data-toggle="modal" href="#" data-target="#addTaskModal" class="btn btn-success">Manage Projects</button>
+    	</div>
 		<ul class="list-group">
 		{% for l in user.todolist.all %}
 			<li id = "proj" class="list-group-item"><a href="/{{l.id}}"><h3>{{l.name}}</h3></a></li>
@@ -14,4 +17,35 @@
 	{% else %}
 		<h2>To view your current projects please <a href="/login">Login</a> or <a href="/signup">signup</a></h2>
 	{% endif %}
+
+<div class="modal fade" id="addTaskModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Add Task</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+		<form method="post", action="#">
+		{% csrf_token %}
+          <div class="modal-body">
+              <label>Name:</label>
+              <div class="input-group mb-3">
+                  <input type="text" name="new" value="" class="form-control">
+                  <select class="form-select" name="currentTab" aria-label="Default select example">
+                      <option selected>Select Tab</option>
+                      {% for l in user.todolist.all %}
+                          <option value="{{ l.name }}">{{ l.name }}</option>
+                      {% endfor %}
+                  </select>
+              </div>
+          </div>
+          <div class="modal-footer">
+              <button name="add", value="add", type="submit", class="btn btn-success">Add Task</button>
+          </div>
+        </form>
+    </div>
+  </div>
+</div>
 {% endblock %}

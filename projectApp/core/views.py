@@ -33,10 +33,22 @@ def index(request, id):
                 return render(request, "dashboard.html", {})
             elif request.POST.get("add"):
                 newItem = request.POST.get("new")
-                if newItem != "":
-                    ls.item_set.create(text=newItem, complete=False)
+                for tab in ls.tabs_set.all():
+                    tab.active = False
+                    if request.POST.get("currentTab") == tab.name:
+                        print("current tab")
+                        tab.active = True
+                        print(tab)
+                        if newItem != "":
+                            ls.item_set.create(text=newItem, complete=False, tab=tab)
+                        else:
+                            print("invalid")
+            elif request.POST.get("addTab"):
+                newTab = request.POST.get("newtab")
+                if newTab != "":
+                    ls.tabs_set.create(name=newTab)
                 else:
-                    print("invalid")
+                    print("invalid tab")
 
     return render(request, "index.html", {"ls": ls})
 

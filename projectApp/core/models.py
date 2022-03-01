@@ -11,8 +11,17 @@ class ProjectList(models.Model):
         return self.name
 
 
+class Tabs(models.Model):
+    projectList = models.ForeignKey(ProjectList, on_delete=models.CASCADE)
+    name = models.CharField(max_length=300)
+
+    def __str__(self):
+        return self.name
+
+
 class Item(models.Model):
     projectList = models.ForeignKey(ProjectList, on_delete=models.CASCADE)
+    tab = models.CharField(max_length=300)
     text = models.CharField(max_length=300)
     complete = models.BooleanField()
 

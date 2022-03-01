@@ -1,6 +1,18 @@
 {% extends 'base.html' %}
-
+{% load static %}
 {% block content %}
+<link href="{% static 'css/check.css' %}" rel="stylesheet">
+<script>
+$(document).ready(function(){
+    $('a[data-toggle="tab"]').on('show.bs.tab', function(e) {
+        localStorage.setItem('activeTab', $(e.target).attr('href'));
+    });
+    var activeTab = localStorage.getItem('activeTab');
+    if(activeTab){
+        $('#myTab a[href="' + activeTab + '"]').tab('show');
+    }
+});
+</script>
 <style type="text/css">
 	.p-3 {
     	min-height: 0 !important;
@@ -9,84 +21,184 @@
 		flex: 0 0 100% !important;
 		max-width: 100% !important;
 	}
+	/* Style the tab */
+.tab {
+  overflow: hidden;
+  border: 1px solid #ccc;
+  background-color: #f1f1f1;
+}
+
+/* Style the buttons that are used to open the tab content */
+.tab button {
+  background-color: inherit;
+  float: left;
+  border: none;
+  outline: none;
+  cursor: pointer;
+  padding: 14px 16px;
+  transition: 0.3s;
+}
+
+/* Change background color of buttons on hover */
+.tab button:hover {
+  background-color: #ddd;
+}
+
+/* Create an active/current tablink class */
+.tab button.active {
+  background-color: #ccc;
+}
+
+/* Style the tab content */
+.tabcontent {
+  display: none;
+  padding: 6px 12px;
+  border: 1px solid #ccc;
+  border-top: none;
+}
+.tab-content>.active {
+    display: block;
+    background-color: rgb(44,45,47);
+    padding: 15px;
+    margin-top: 15px;
+    border-radius: 5px;
+}
+.addTab {
+text-align: right;
+margin-bottom: 15px;
+width: 100%;
+}
+#taskSettings {
+margin:15px;
+}
+.item {
+    cursor: pointer;
+    background: #81f071;
+    padding: 10px;
+    display: block;
+    width: 100%;
+    margin-bottom: 15px;
+}
+
+#list {
+  padding: 0px;
+}
+
+.list-item {
+  margin-bottom: 30px;
+  background-color: #ec6f6f;
+  padding: 20px;
+  border-radius: 10px;
+  cursor: pointer;
+}
+
+.cut {
+  text-decoration: line-through;
+  background: rgb(231, 106, 106);
+}
+
+h6 {
+  text-align: center;
+  margin-top: 37px;
+}
+
+.hide {
+  display: none;
+}
 </style>
-<!-- second nav for adding new tasks -->
-<ul style = "margin: 0;">
-        <div class="controls p-3">
-			<form class="form-inline" action="#" method="post">
-				{% csrf_token %}
-				<label for="titleInput">New Task Title:</label>
-				<input class="form-control form-control-sm" type="text" name="title" id="titleInput" autocomplete="off">
-				<label for="descriptionInput">New Task Description:</label>
-				<input class="form-control form-control-sm" type="text" name="description" id="descriptionInput" autocomplete="off">
-				<button class="btn btn-dark" id="add">Add Task</button>
-				<button class="btn btn-danger mx-2" id="deleteAll">Delete Selected Tasks</button>
-				<div class="topnav-right">
-					<button name="deleteProj", value="deleteProj", type="submit", class="btn btn-danger mx-2">Delete Project</button>
-				</div>
-			</form>
-		</div>
+    <!-- Nav tabs -->
+    <ul class="nav nav-tabs" id="myTab">
+        {% for tabs in ls.tabs_set.all%}
+            <li class="nav-item">
+                    <a class="nav-link" data-toggle="tab" href="#{{tabs.name}}">{{tabs.name}}</a>
+            </li>
+        {% endfor %}
+	<li class="nav-item">
+        <a class="nav-link" data-toggle="modal" href="#" data-target="#exampleModal">+</a>
+    </li>
+        <li class="nav-item">
+            <a class="nav-link" data-toggle="modal" href="#" data-target="#exampleModal"><i class="fa-regular fa-gear"></i></a>
+        </li>
     </ul>
-		<div class="project-controller">
-			<h1 class="project-title">{{ls.name}}</h1>
-		</div>
-<!---------start code for chart--------->
-		<div class="project-pie" id="donut-chart"></div>
-		<script>
-			var chart = bb.generate( {
-				data: {
-					columns: [
-						["Blue", 2],
-						["Yellow", 4],
-						["Green", 3],
-						["Red", 3],
-						["Purple", 3],
-					],
-					type: "donut",
-				},
-				donut: {
-					title: "Total tasks: #",
-				},
-				bindto: "#donut-chart",
-			});
-		</script>
-<!---------stop chart code view a percentage of each task which is "in progress", etc--------->
-		<div class="boards overflow-auto p-0" id="boardsContainer">
-			<script>if (typeof module === 'object') {window.module = module; module = undefined;}</script>
-			<script>if (window.module) module = window.module;</script>
-			<script type="text/javascript">
-				(function() {
-					var ga = document.createElement('projectDashboard');
-					ga.type = 'text/javascript';
-					ga.async = true;
-					var s = document.getElementsByTagName('projectDashboard')[0];
-					s.parentNode.insertBefore(ga, s);
-				})();
-			</script>
-		</div>
-	<form method="post", action="#">
+    <!-- Tab panes -->
+    <div class="tab-content">
+        {% for tabs in ls.tabs_set.all%}
+            <div class="tab-pane container fade" id="{{tabs.name}}">
+                    <div class = "addTab">
+        <button id = "taskSettings" data-toggle="modal" href="#" data-target="#addTaskModal" class="btn btn-success">Task Settings</button>
+    </div>
+                	<form method="post", action="#">
+                    {% csrf_token %}
+                        <ul class="list-unstyled" id="todo">
+                    {% for item in ls.item_set.all%}
+                        {% if tabs.name == item.tab %}
+                                <li class="item"><input id="flexCheckChecked" class="form-check-input" type="checkbox" name="c{{item.id}}" value="clicked" {% if item.complete %} checked {% endif %}><h6>{{item.text}}</h6><button name="delete", value="delete", type="submit", class="btn btn-danger mx-2">×</button></li>
+                        {% endif %}
+                    {% endfor %}
+                        </ul>
+                </form>
+                <div class = "addTab">
+                    <button data-toggle="modal" href="#" data-target="#addTaskModal" class="btn btn-success">Add Task</button>
+                </div>
+            </div>
+        {% endfor %}
+    <div class="tab-pane container active" id="home">A "Hello, World!" program generally is a computer program that outputs or displays the message "Hello, World!". Such a program is very simple in most programming languages, and is often used to illustrate the basic syntax of a programming language. It is often the first program written by people learning to code.</div>
+    <div class="tab-pane container fade" id="menu1">The Manchester Baby, also known as the Small-Scale Experimental Machine, was the world's first electronic stored-program computer. It was built at the University of Manchester, UK, by Frederic C. Williams, Tom Kilburn, and Geoff Tootill, and ran its first program on 21 June 1948, seventy-one years ago</div>
+    </div>
+<!-- Modal -->
+<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Add Tab</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+		<form method="post", action="#">
 		{% csrf_token %}
+      <div class="modal-body">
+		  <label>Name:</label>
+        <input type="text" name="newtab" value="" class="form-control">
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+        <button name="addTab", value="addTab", type="submit", class="btn btn-success">Add</button>
+      </div>
+		</form>
+    </div>
+  </div>
+</div>
 
-		{% for item in ls.item_set.all%}
-			<div class="input-group mb-3">
-	  			<div class="input-group-prepend">
-	    			<div class="input-group-text">
-	      				<input type="checkbox" name="c{{item.id}}" value="clicked" aria-label="Checkbox for following text input" {% if item.complete %} checked {% endif %}>
-	    			</div>
-	  			</div>
-	  			<input type="text" name="text{{item.id}}" value="{{item.text}}" class="form-control" aria-label="Text input with checkbox">
-			</div>
-		{% endfor %}
-
-		<div class="input-group mb-3">
-	  		<div class="input-group-prepend">
-	  		<button name="add", value="add", type="submit", class="btn btn-success">Add New</button>
-	  		</div>
-	  		<input type="text" name="new" value="" class="form-control">
-
-		</div>
-		<br>
-		<button name="save", value="save", type="submit", class="btn btn-success">Save</button>
-		<button name="delete", value="delete", type="submit", class="btn btn-danger mx-2">Delete selected</button>
-	</form>
+<!-- Modal -->
+<div class="modal fade" id="addTaskModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Add Task</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+		<form method="post", action="#">
+		{% csrf_token %}
+          <div class="modal-body">
+              <label>Name:</label>
+              <div class="input-group mb-3">
+                  <input type="text" name="new" value="" class="form-control">
+                  <select class="form-select" name="currentTab" aria-label="Default select example">
+                      <option selected>Select Tab</option>
+                      {% for tabs in ls.tabs_set.all%}
+                          <option value="{{ tabs.name }}">{{ tabs.name }}</option>
+                      {% endfor %}
+                  </select>
+              </div>
+          </div>
+          <div class="modal-footer">
+              <button name="add", value="add", type="submit", class="btn btn-success">Add Task</button>
+          </div>
+        </form>
+    </div>
+  </div>
+</div>
 {% endblock %}
