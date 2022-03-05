@@ -182,9 +182,11 @@
         <div class="tab-content">
             {% for tabs in ls.tabs_set.all%}
                 <div class="tab-pane container fade" id="{{tabs.name}}">
+                    <!--
                     <div class = "addTab">
                         <button id = "taskSettings" data-toggle="modal" href="#" data-target="#addTaskModal" class="btn btn-success">Task Settings</button>
                     </div>
+                    -->
                         <form method="post", action="#">
                         {% csrf_token %}
                             <ul class="list-unstyled" id="todo">

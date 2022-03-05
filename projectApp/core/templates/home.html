@@ -3,10 +3,11 @@
 
 {% block content %}
 {% if user.is_authenticated %}
+<br>
   <h1 style="text-align: center; padding: 0px; margin-left: 0px;">Home</h1>
   <br>
   <h3 style="text-align: left;">Welcome, {{ user.username }}!</h3>
-  <h2>You have {{ user.todolist.count }} active projects</h2>
+  <h2 style="text-align: left;">You have {{ user.todolist.count }} active projects</h2>
 {% else %}
 <main>
   <h1 class="visually-hidden">CMSC451 Project Management Website</h1>

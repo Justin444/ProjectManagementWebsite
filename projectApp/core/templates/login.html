@@ -12,6 +12,11 @@
             <h1 class="h3 mb-3 font-weight-normal">Log in</h1>
         </div>
         {% csrf_token %}
+        {% if form.non_field_errors %}
+            {% for error in form.non_field_errors %}
+                <p class="text-danger">{{ error }}</p>
+            {% endfor %}
+        {% endif %}
             <input type="text" class="form-control" placeholder="Username" name="username" autofocus="" autocapitalize="none" autocomplete="username" maxlength="150" required="" id="id_username">
             <br>
             <input type="password" class="form-control" placeholder="Password" name="password" autocomplete="current-password" required="" id="id_password">
