@@ -1,204 +1,344 @@
 {% extends 'base.html' %}
 {% load static %}
 {% block content %}
-<link href="{% static 'css/check.css' %}" rel="stylesheet">
-<script>
-$(document).ready(function(){
-    $('a[data-toggle="tab"]').on('show.bs.tab', function(e) {
-        localStorage.setItem('activeTab', $(e.target).attr('href'));
+{% if user.is_authenticated and shareduser.is_authenticated or ls.user == user%}
+    <link href="{% static 'css/check.css' %}" rel="stylesheet">
+     <!-- Tempus Dominus Bootstrap 4 -->
+    <!-- Font Awesome -->
+        <link href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous">
+
+        <!-- Moment.js -->
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.23.0/moment.min.js" integrity="sha256-VBLiveTKyUZMEzJd6z2mhfxIqz3ZATCuVMawPZGzIfA=" crossorigin="anonymous"></script>
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/tempusdominus-bootstrap-4/5.1.2/css/tempusdominus-bootstrap-4.min.css" integrity="sha256-XPTBwC3SBoWHSmKasAk01c08M6sIA5gF5+sRxqak2Qs=" crossorigin="anonymous" />
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/tempusdominus-bootstrap-4/5.1.2/js/tempusdominus-bootstrap-4.min.js" integrity="sha256-z0oKYg6xiLq3yJGsp/LsY9XykbweQlHl42jHv2XTBz4=" crossorigin="anonymous"></script>
+    <script>
+    $(document).ready(function(){
+        $('a[data-toggle="tab"]').on('show.bs.tab', function(e) {
+            localStorage.setItem('activeTab', $(e.target).attr('href'));
+        });
+        var activeTab = localStorage.getItem('activeTab');
+        if(activeTab){
+            $('#myTab a[href="' + activeTab + '"]').tab('show');
+        }
     });
-    var activeTab = localStorage.getItem('activeTab');
-    if(activeTab){
-        $('#myTab a[href="' + activeTab + '"]').tab('show');
+    </script>
+    <style type="text/css">
+        .p-3 {
+            min-height: 0 !important;
+        }
+        .col-8 {
+            flex: 0 0 100% !important;
+            max-width: 100% !important;
+        }
+        /* Style the tab */
+    .tab {
+      overflow: hidden;
+      border: 1px solid #ccc;
+      background-color: #f1f1f1;
     }
-});
-</script>
-<style type="text/css">
-	.p-3 {
-    	min-height: 0 !important;
-	}
-	.col-8 {
-		flex: 0 0 100% !important;
-		max-width: 100% !important;
-	}
-	/* Style the tab */
-.tab {
-  overflow: hidden;
-  border: 1px solid #ccc;
-  background-color: #f1f1f1;
-}
 
-/* Style the buttons that are used to open the tab content */
-.tab button {
-  background-color: inherit;
-  float: left;
-  border: none;
-  outline: none;
-  cursor: pointer;
-  padding: 14px 16px;
-  transition: 0.3s;
-}
+    /* Style the buttons that are used to open the tab content */
+    .tab button {
+      background-color: inherit;
+      float: left;
+      border: none;
+      outline: none;
+      cursor: pointer;
+      padding: 14px 16px;
+      transition: 0.3s;
+    }
 
-/* Change background color of buttons on hover */
-.tab button:hover {
-  background-color: #ddd;
-}
+    /* Change background color of buttons on hover */
+    .tab button:hover {
+      background-color: #ddd;
+    }
 
-/* Create an active/current tablink class */
-.tab button.active {
-  background-color: #ccc;
-}
+    /* Create an active/current tablink class */
+    .tab button.active {
+      background-color: #ccc;
+    }
 
-/* Style the tab content */
-.tabcontent {
-  display: none;
-  padding: 6px 12px;
-  border: 1px solid #ccc;
-  border-top: none;
-}
-.tab-content>.active {
-    display: block;
-    background-color: rgb(44,45,47);
-    padding: 15px;
-    margin-top: 15px;
-    border-radius: 5px;
-}
-.addTab {
-text-align: right;
-margin-bottom: 15px;
-width: 100%;
-}
-#taskSettings {
-margin:15px;
-}
-.item {
-    cursor: pointer;
-    background: #81f071;
-    padding: 10px;
-    display: block;
-    width: 100%;
+    /* Style the tab content */
+    .tabcontent {
+      display: none;
+      padding: 6px 12px;
+      border: 1px solid #ccc;
+      border-top: none;
+    }
+    .tab-content>.active {
+        display: block;
+         background-color: rgba(255, 255, 255, .15);
+        backdrop-filter: blur(5px);
+        box-shadow: 0 0 1rem 0 rgba(0, 0, 0, .2);
+        padding: 15px;
+        margin-top: 15px;
+        border-radius: 5px;
+    }
+    .addTab {
+    text-align: right;
     margin-bottom: 15px;
-}
+    width: 100%;
+    }
+    #taskSettings {
+    margin:15px;
+    }
+    .item {
+        background: rgb(54,58,64);
+        padding: 10px;
+        display: block;
+        width: 100%;
+        margin-bottom: 5px;
+        border-radius: 15px;
+    }
 
-#list {
-  padding: 0px;
-}
+    #list {
+      padding: 0px;
+    }
 
-.list-item {
-  margin-bottom: 30px;
-  background-color: #ec6f6f;
-  padding: 20px;
-  border-radius: 10px;
-  cursor: pointer;
-}
+    .list-item {
+      margin-bottom: 0px;
+      background-color: #ec6f6f;
+      padding: 20px;
+      border-radius: 10px;
+    }
 
-.cut {
-  text-decoration: line-through;
-  background: rgb(231, 106, 106);
-}
+    .cut {
+      text-decoration: line-through;
+      background: rgb(231, 106, 106);
+    }
 
-h6 {
-  text-align: center;
-  margin-top: 37px;
-}
+    .itemlabel {
+        text-align: center;
+        display: inline-block;
+        overflow-wrap: anywhere;
+        color: gainsboro;
+        padding-left: 25px;
+    }
 
-.hide {
-  display: none;
-}
-</style>
-    <!-- Nav tabs -->
-    <ul class="nav nav-tabs" id="myTab">
-        {% for tabs in ls.tabs_set.all%}
-            <li class="nav-item">
-                    <a class="nav-link" data-toggle="tab" href="#{{tabs.name}}">{{tabs.name}}</a>
-            </li>
-        {% endfor %}
-	<li class="nav-item">
-        <a class="nav-link" data-toggle="modal" href="#" data-target="#exampleModal">+</a>
-    </li>
+    .hide {
+        display: none;
+    }
+    .ddate {
+        padding-left: 15px;
+        padding-bottom:5px;
+        padding-top:5px;
+        background-color: rgb(82,86,89);
+        margin: none;
+        color: gainsboro;
+        border-radius: 25px;
+        box-shadow: 0 0 1rem 0 rgba(0, 0, 0, .2);
+    }
+    .delete {
+        float: right;
+        color: #ff5858a6;
+        background-color: rgba(0,0,0,0);
+        border-radius: 10px;
+    }
+    .form-check-input {
+        position: inherit;
+        margin-top: .3rem;
+        margin-left: -1.25rem;
+    }
+    input[type=checkbox] {
+        width: 20px;
+        height: 20px;
+        vertical-align: middle;
+    }
+    input[type=checkbox]:checked + label.itemlabel{
+      text-decoration: line-through;
+    }
+    .list-unstyled {
+    background-color:rgba(0,0,0,0);
+    }
+    .nav-tabs {
+    padding-top: 15px;
+    background-color:rgba(0,0,0,0.2);
+    margin-right: -15px;
+    margin-left: -15px;
+    }
+    .row {
+        margin-right: 0px !important;
+    }
+    </style>
+        <!-- Nav tabs -->
+        <ul class="nav nav-tabs" id="myTab">
+            {% for tabs in ls.tabs_set.all%}
+                <li class="nav-item">
+                        <a class="nav-link" data-toggle="tab" href="#{{tabs.name}}">{{tabs.name}}</a>
+                </li>
+            {% endfor %}
         <li class="nav-item">
-            <a class="nav-link" data-toggle="modal" href="#" data-target="#exampleModal"><i class="fa-regular fa-gear"></i></a>
+            <a class="nav-link" data-toggle="modal" href="#" data-target="#exampleModal"><i class="fa fa-plus" aria-hidden="true"></i></a>
         </li>
-    </ul>
-    <!-- Tab panes -->
-    <div class="tab-content">
-        {% for tabs in ls.tabs_set.all%}
-            <div class="tab-pane container fade" id="{{tabs.name}}">
+            <li class="nav-item">
+                <a class="nav-link" data-toggle="modal" href="#" style="float: right;" data-target="#manageTab"><i class="fa fa-cog" aria-hidden="true"></i></a>
+            </li>
+        </ul>
+<br>
+    <div class = "addTab">
+        <button data-toggle="modal" href="#" data-target="#deleteProjModal" class="btn btn-danger">Delete Project</button>
+    </div>
+        <!-- Tab panes -->
+        <div class="tab-content">
+            {% for tabs in ls.tabs_set.all%}
+                <div class="tab-pane container fade" id="{{tabs.name}}">
                     <div class = "addTab">
-        <button id = "taskSettings" data-toggle="modal" href="#" data-target="#addTaskModal" class="btn btn-success">Task Settings</button>
-    </div>
-                	<form method="post", action="#">
-                    {% csrf_token %}
-                        <ul class="list-unstyled" id="todo">
-                    {% for item in ls.item_set.all%}
-                        {% if tabs.name == item.tab %}
-                                <li class="item"><input id="flexCheckChecked" class="form-check-input" type="checkbox" name="c{{item.id}}" value="clicked" {% if item.complete %} checked {% endif %}><h6>{{item.text}}</h6><button name="delete", value="delete", type="submit", class="btn btn-danger mx-2">×</button></li>
-                        {% endif %}
-                    {% endfor %}
-                        </ul>
-                </form>
-                <div class = "addTab">
-                    <button data-toggle="modal" href="#" data-target="#addTaskModal" class="btn btn-success">Add Task</button>
+                        <button id = "taskSettings" data-toggle="modal" href="#" data-target="#addTaskModal" class="btn btn-success">Task Settings</button>
+                    </div>
+                        <form method="post", action="#">
+                        {% csrf_token %}
+                            <ul class="list-unstyled" id="todo">
+                        {% for item in tabs.item_set.all%}
+                                    <li class="item">
+                                        <input id="flexCheckChecked" class="form-check-input" type="checkbox" name="c{{item.id}}" value="clicked" {% if item.complete %} checked {% endif %}><label for="c{{item.id}}" class="itemlabel">{{item.text}}</label>
+                                        <button name="delete", value="delete", type="submit", class="delete"><i class="fa fa-trash" aria-hidden="true"></i></button>
+                                    </li>
+                                    {% if item.due_date %}<p class ="ddate">Due Date: {{item.due_date}}</p>{% endif %}
+                        {% endfor %}
+                            </ul>
+                    </form>
+                    <div class = "addTab">
+                        <button data-toggle="modal" href="#" data-target="#addTaskModal" class="btn btn-success">Add Task</button>
+                    </div>
                 </div>
-            </div>
-        {% endfor %}
-    <div class="tab-pane container active" id="home">A "Hello, World!" program generally is a computer program that outputs or displays the message "Hello, World!". Such a program is very simple in most programming languages, and is often used to illustrate the basic syntax of a programming language. It is often the first program written by people learning to code.</div>
-    <div class="tab-pane container fade" id="menu1">The Manchester Baby, also known as the Small-Scale Experimental Machine, was the world's first electronic stored-program computer. It was built at the University of Manchester, UK, by Frederic C. Williams, Tom Kilburn, and Geoff Tootill, and ran its first program on 21 June 1948, seventy-one years ago</div>
-    </div>
-<!-- Modal -->
-<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-  <div class="modal-dialog" role="document">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title" id="exampleModalLabel">Add Tab</h5>
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-          <span aria-hidden="true">&times;</span>
-        </button>
-      </div>
-		<form method="post", action="#">
-		{% csrf_token %}
-      <div class="modal-body">
-		  <label>Name:</label>
-        <input type="text" name="newtab" value="" class="form-control">
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-        <button name="addTab", value="addTab", type="submit", class="btn btn-success">Add</button>
-      </div>
-		</form>
-    </div>
-  </div>
-</div>
-
-<!-- Modal -->
-<div class="modal fade" id="addTaskModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-  <div class="modal-dialog" role="document">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title">Add Task</h5>
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-          <span aria-hidden="true">&times;</span>
-        </button>
-      </div>
-		<form method="post", action="#">
-		{% csrf_token %}
+            {% endfor %}
+        <div class="tab-pane container active" id="home">A "Hello, World!" program generally is a computer program that outputs or displays the message "Hello, World!". Such a program is very simple in most programming languages, and is often used to illustrate the basic syntax of a programming language. It is often the first program written by people learning to code.</div>
+        </div>
+    <!-- Modal -->
+    <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="exampleModalLabel">Add Tab</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+            <form method="post", action="#">
+            {% csrf_token %}
           <div class="modal-body">
               <label>Name:</label>
-              <div class="input-group mb-3">
-                  <input type="text" name="new" value="" class="form-control">
-                  <select class="form-select" name="currentTab" aria-label="Default select example">
-                      <option selected>Select Tab</option>
-                      {% for tabs in ls.tabs_set.all%}
-                          <option value="{{ tabs.name }}">{{ tabs.name }}</option>
-                      {% endfor %}
-                  </select>
-              </div>
+            <input type="text" name="newtab" value="" class="form-control">
           </div>
           <div class="modal-footer">
-              <button name="add", value="add", type="submit", class="btn btn-success">Add Task</button>
+            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+            <button name="addTab", value="addTab", type="submit", class="btn btn-success">Add</button>
           </div>
-        </form>
+            </form>
+        </div>
+      </div>
     </div>
-  </div>
-</div>
+
+    <!-- Modal -->
+    <div class="modal fade" id="addTaskModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title">Add Task</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+            <form method="post", action="#">
+            {% csrf_token %}
+              <div class="modal-body">
+                  <label>Name:</label>
+                  <div class="input-group mb-3">
+                      <input type="text" name="new" value="" class="form-control">
+                      <select class="form-select" name="currentTab" aria-label="Default select example">
+                          <option selected>Select Tab</option>
+                          {% for tabs in ls.tabs_set.all%}
+                              <option value="{{ tabs.name }}">{{ tabs.name }}</option>
+                          {% endfor %}
+                      </select>
+                  </div>
+            <div class="input-group date" id="datetimepicker1" data-target-input="nearest">
+              <input type="text" name="duedate" class="form-control datetimepicker-input" data-target="#datetimepicker1"/>
+              <div class="input-group-append" data-target="#datetimepicker1" data-toggle="datetimepicker">
+                <div class="input-group-text"><i class="fa fa-calendar"></i></div>
+              </div>
+            </div>
+              </div>
+              <div class="modal-footer">
+                  <button name="add", value="add", type="submit", class="btn btn-success">Add Task</button>
+              </div>
+            </form>
+        </div>
+      </div>
+    </div>
+<!-- Modal -->
+    <div class="modal fade" id="manageTab" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title">Manage Tabs</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+            <form method="post", action="#">
+            {% csrf_token %}
+              <div class="modal-body">
+                  <label>Rename Tab:</label>
+                  <div class="input-group mb-3">
+                      <input type="text" name="renameTab" value="" class="form-control" placeholder="New tab name">
+                      <select class="form-select" name="currentTab" aria-label="Default select example">
+                          {% for tabs in ls.tabs_set.all%}
+                              <option value="{{ tabs.name }}">{{ tabs.name }}</option>
+                          {% endfor %}
+                      </select>
+                  </div>
+                  <button style="float:right;" name="add", value="add", type="submit", class="btn btn-success">Rename</button>
+              </div>
+              <div style="clear: both; margin-top: 40px;"class="modal-footer">
+              </div>
+            </form>
+            <form method="post", action="#">
+            {% csrf_token %}
+              <div class="modal-body">
+                  <label>Delete Tab:</label>
+                  <div class="input-group mb-3">
+                      <select class="form-select" name="currentTab" aria-label="Default select example">
+                          {% for tabs in ls.tabs_set.all%}
+                              <option value="{{ tabs.name }}">{{ tabs.name }}</option>
+                          {% endfor %}
+                      </select>
+                  </div>
+                  <button style="display: inline-block;"name="deleteTab", value="deleteTa", type="submit", class="btn btn-danger">Delete</button>
+              </div>
+              <div style="clear: both; margin-top: 40px;"class="modal-footer">
+              </div>
+            </form>
+        </div>
+      </div>
+    </div>
+    <!-- Modal -->
+    <div class="modal fade" id="deleteProjModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title">Delete Project</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+            <form method="post", action="#">
+            {% csrf_token %}
+          <div class="modal-body">
+            <h5>Are you sure you want to delete this project?</h5>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+            <button name="deleteProj", value="addTab", type="submit", class="btn btn-danger">Delete</button>
+          </div>
+            </form>
+        </div>
+      </div>
+    </div>
+         <script type="text/javascript">
+             $(function () {
+                 $('#datetimepicker1').datetimepicker();
+             });
+          </script>
+    {% endif %}
 {% endblock %}

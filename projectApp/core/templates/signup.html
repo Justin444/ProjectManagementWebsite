@@ -1,7 +1,9 @@
 {% extends 'base.html' %}
 
 {% block content %}
+  <br>
   <h2>Sign up</h2>
+  <br>
   <form method="post">
     {% csrf_token %}
     {% for field in form %}

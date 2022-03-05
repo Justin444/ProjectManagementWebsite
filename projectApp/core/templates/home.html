@@ -3,8 +3,10 @@
 
 {% block content %}
 {% if user.is_authenticated %}
-  <h2>Welcome, {{ user.get_full_name }} {{ user.username }}!</h2>
-  <p>Your email address: {{ user.email }}</p>
+  <h1 style="text-align: center; padding: 0px; margin-left: 0px;">Home</h1>
+  <br>
+  <h3 style="text-align: left;">Welcome, {{ user.username }}!</h3>
+  <h2>You have {{ user.todolist.count }} active projects</h2>
 {% else %}
 <main>
   <h1 class="visually-hidden">CMSC451 Project Management Website</h1>
@@ -23,12 +25,14 @@
           <h4>Team Lead</h4>
           <p style="color: rgb(156, 157, 158);">Senior at UMGC majoring in Computer Science while working as a Project Manager in Telecom. As the Team Lead,
             Will is responsible for the direction of the project, all documentation, and assisting through any roadblocks in development.</p>
-          <a class = "plink" href="https://github.com/MeyerWilliam" class="icon-link">
+          <div class="profile-info p-3">
+          <a href="https://github.com/MeyerWilliam" class="icon-link">
             Github
               <svg xmlns="http://www.w3.org/2000/svg" width="10" height="10" fill="currentColor" class="bi bi-chevron-right" viewBox="0 0 16 16">
     <path fill-rule="evenodd" d="M4.646 1.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1 0 .708l-6 6a.5.5 0 0 1-.708-.708L10.293 8 4.646 2.354a.5.5 0 0 1 0-.708z"/>
   </svg>
           </a>
+          </div>
           </div>
        </div>
       </div>
@@ -42,12 +46,13 @@
         <div class="profile-info p-3">
           <h4>Back-end developer</h4>
           <p style="color: rgb(156, 157, 158);">Senior at UMGC majoring in Computer Science with experience as a Software Developer in Government contracting. Justin is responsible for the back end development for functionality of the program.</p>
-          <a class = "plink" href="https://github.com/Justin444" class="icon-link">
-            Github
+          <div class="profile-info p-3">
+          <a class href="https://github.com/Justin444" class="icon-link">Github
             <svg xmlns="http://www.w3.org/2000/svg" width="10" height="10" fill="currentColor" class="bi bi-chevron-right" viewBox="0 0 16 16">
   <path fill-rule="evenodd" d="M4.646 1.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1 0 .708l-6 6a.5.5 0 0 1-.708-.708L10.293 8 4.646 2.354a.5.5 0 0 1 0-.708z"/>
 </svg>
           </a>
+          </div>
           </div>
        </div>
       </div>
@@ -62,90 +67,19 @@
           <h4>Front-end developer</h4>
           <p style="color: rgb(156, 157, 158);"> Senior at UMGC majoring in Computer Science and current active duty member of the United States Air Force.
             Maurice is responsible for front end development utilizing Bootstrap.</p>
-          <a class = "plink" href="https://github.com/mosiris" class="icon-link">
+          <div class="profile-info p-3">
+          <a href="https://github.com/mosiris" class="icon-link">
             Github
             <svg xmlns="http://www.w3.org/2000/svg" width="10" height="10" fill="currentColor" class="bi bi-chevron-right" viewBox="0 0 16 16">
   <path fill-rule="evenodd" d="M4.646 1.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1 0 .708l-6 6a.5.5 0 0 1-.708-.708L10.293 8 4.646 2.354a.5.5 0 0 1 0-.708z"/>
 </svg>
           </a>
+            </div>
           </div>
        </div>
       </div>
     </div>
   </div>
-
-  <div class="b-example-divider"></div>
-
-  <div class="container px-4 py-5" id="custom-cards">
-    <h2 class="pb-2 border-bottom">Features</h2>
-
-    <div class="row row-cols-1 row-cols-lg-3 align-items-stretch g-4 py-5">
-      <div class="col">
-        <div class="card card-cover h-100 overflow-hidden text-white bg-dark rounded-5 shadow-lg" style="background-image: url('unsplash-photo-1.jpg');">
-          <div class="d-flex flex-column h-100 p-5 pb-3 text-white text-shadow-1">
-            <h2 class="pt-5 mt-5 mb-4 display-6 lh-1 fw-bold">Create multiple projects to track and manage tasks</h2>
-            <ul class="d-flex list-unstyled mt-auto">
-              <li class="me-auto">
-                <img src="https://github.com/twbs.png" alt="Bootstrap" width="32" height="32" class="rounded-circle border border-white">
-              </li>
-              <li class="d-flex align-items-center me-3">
-                <svg class="bi me-2" width="1em" height="1em"><use xlink:href="#geo-fill"/></svg>
-                <small>Earth</small>
-              </li>
-              <li class="d-flex align-items-center">
-                <svg class="bi me-2" width="1em" height="1em"><use xlink:href="#calendar3"/></svg>
-                <small>3d</small>
-              </li>
-            </ul>
-          </div>
-        </div>
-      </div>
-
-      <div class="col">
-        <div class="card card-cover h-100 overflow-hidden text-white bg-dark rounded-5 shadow-lg" style="background-image: url('unsplash-photo-2.jpg');">
-          <div class="d-flex flex-column h-100 p-5 pb-3 text-white text-shadow-1">
-            <h2 class="pt-5 mt-5 mb-4 display-6 lh-1 fw-bold">Create and manage tasks and columns</h2>
-            <ul class="d-flex list-unstyled mt-auto">
-              <li class="me-auto">
-                <img src="https://github.com/twbs.png" alt="Bootstrap" width="32" height="32" class="rounded-circle border border-white">
-              </li>
-              <li class="d-flex align-items-center me-3">
-                <svg class="bi me-2" width="1em" height="1em"><use xlink:href="#geo-fill"/></svg>
-                <small>Pakistan</small>
-              </li>
-              <li class="d-flex align-items-center">
-                <svg class="bi me-2" width="1em" height="1em"><use xlink:href="#calendar3"/></svg>
-                <small>4d</small>
-              </li>
-            </ul>
-          </div>
-        </div>
-      </div>
-
-      <div class="col">
-        <div class="card card-cover h-100 overflow-hidden text-white bg-dark rounded-5 shadow-lg" style="background-image: url('unsplash-photo-3.jpg');">
-          <div class="d-flex flex-column h-100 p-5 pb-3 text-shadow-1">
-            <h2 class="pt-5 mt-5 mb-4 display-6 lh-1 fw-bold">Track percentages with visual aid</h2>
-            <ul class="d-flex list-unstyled mt-auto">
-              <li class="me-auto">
-                <img src="https://github.com/twbs.png" alt="Bootstrap" width="32" height="32" class="rounded-circle border border-white">
-              </li>
-              <li class="d-flex align-items-center me-3">
-                <svg class="bi me-2" width="1em" height="1em"><use xlink:href="#geo-fill"/></svg>
-                <small>California</small>
-              </li>
-              <li class="d-flex align-items-center">
-                <svg class="bi me-2" width="1em" height="1em"><use xlink:href="#calendar3"/></svg>
-                <small>5d</small>
-              </li>
-            </ul>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-
-  <div class="b-example-divider"></div>
 
 </main>
 {% endif %}

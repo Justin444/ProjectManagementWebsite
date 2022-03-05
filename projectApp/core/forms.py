@@ -17,3 +17,9 @@ class SignUpForm(UserCreationForm):
 # Creating new projects
 class CreateListForm(forms.Form):
     name = forms.CharField(label="Name ", max_length=300)
+
+
+class DateForm(forms.Form):
+    todo = forms.CharField(
+    widget=forms.TextInput(attrs={"class":"form-control"}))
+    date_1=forms.DateField(widget=forms.DateInput(attrs={'class':'datepicker'}))
