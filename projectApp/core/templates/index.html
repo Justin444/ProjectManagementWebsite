@@ -160,6 +160,10 @@
         margin-right: 0px !important;
     }
     </style>
+		<div class="text-center" style="background-color: rgba(0,0,0,0.2); margin-right: -15px;
+    margin-left: -15px; margin-bottom: 0;">
+			<h2 style="margin:0; padding:5px;">{{ls.name}}</h2>
+		</div>
         <!-- Nav tabs -->
         <ul class="nav nav-tabs" id="myTab">
             {% for tabs in ls.tabs_set.all%}
@@ -204,7 +208,11 @@
                     </div>
                 </div>
             {% endfor %}
-        <div class="tab-pane container active" id="home">A "Hello, World!" program generally is a computer program that outputs or displays the message "Hello, World!". Such a program is very simple in most programming languages, and is often used to illustrate the basic syntax of a programming language. It is often the first program written by people learning to code.</div>
+        <div class="tab-pane container active" id="home" style="color: gainsboro;">
+            Click the plus icon <i class="fa fa-plus" aria-hidden="true"></i> on the top left to create a new tab that will contain tasks for your project.
+            <br>
+            Once a tab is created you can manage current tabs clicking the gear icon <i class="fa fa-cog" aria-hidden="true"></i> or create new tasks for different tabs.
+        </div>
         </div>
     <!-- Modal -->
     <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
